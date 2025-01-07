@@ -26,6 +26,7 @@ import { format } from "date-fns";
 
 const PatientDashboard = () => {
   const [appointments, setAppointments] = useState([]);
+  const [pastAppointments, setPastAppointments] = useState([]);
   const [doctorList, setDoctorList] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -102,7 +103,43 @@ const PatientDashboard = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setAppointments(appointmentsList);
+        //       setAppointments(appointmentsList);
+        //     });
+
+        //     return unsubscribe;
+        //   } catch (error) {
+        //     console.error("Error fetching appointments:", error);
+        //     alert("Failed to load appointments");
+        //   }
+        // };
+        const now = new Date();
+        const currentAppts = [];
+        const pastAppts = [];
+
+        appointmentsList.forEach((apt) => {
+          const [year, month, day] = apt.date.split("-");
+          const [time, period] = apt.time.split(" ");
+          const [hours, minutes] = time.split(":");
+          let hour = parseInt(hours);
+          if (period === "PM" && hour !== 12) hour += 12;
+          if (period === "AM" && hour === 12) hour = 0;
+          const aptDate = new Date(
+            year,
+            month - 1,
+            day,
+            hour,
+            parseInt(minutes)
+          );
+
+          if (aptDate < now) {
+            pastAppts.push(apt);
+          } else {
+            currentAppts.push(apt);
+          }
+        });
+
+        setAppointments(currentAppts);
+        setPastAppointments(pastAppts);
       });
 
       return unsubscribe;
@@ -348,6 +385,45 @@ const PatientDashboard = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+            {pastAppointments.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold text-gray-800 flex items-center mb-4">
+                  <HeartPulseIcon className="mr-3 text-blue-600" /> Past
+                  Appointments
+                </h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {pastAppointments.map((appointment) => (
+                    <div
+                      key={appointment.id}
+                      className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-5"
+                    >
+                      <div className="flex justify-between items-center mb-3">
+                        <h3 className="text-xl font-semibold text-blue-600">
+                          Dr. {appointment.doctor.name}
+                        </h3>
+                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                          Past
+                        </span>
+                      </div>
+                      <div className="space-y-2 text-gray-700">
+                        <p className="flex items-center">
+                          <HeartPulseIcon className="mr-2 h-5 w-5 text-blue-500" />
+                          {appointment.doctor.specialization}
+                        </p>
+                        <p className="flex items-center">
+                          <CalendarIcon className="mr-2 h-5 w-5 text-blue-500" />
+                          {appointment.date}
+                        </p>
+                        <p className="flex items-center">
+                          <ClockIcon className="mr-2 h-5 w-5 text-blue-500" />
+                          {appointment.time}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>

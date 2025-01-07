@@ -23,6 +23,7 @@ const LoginForm = () => {
       );
       const user = userCredential.user;
       console.log("UID:", user.uid);
+      console.log("Authenticated User:", user);
 
       const userDocRef = doc(firestore, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
@@ -65,6 +66,7 @@ const LoginForm = () => {
       }
     } catch (err) {
       alert("Login Error ..:");
+      console.log(err);
       console.log("Email:", email, "Password:", password);
 
       // Handle different errors

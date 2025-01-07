@@ -372,29 +372,39 @@ const AdminDashboard = () => {
               {bookings.length === 0 ? (
                 <p>No booked appointments found.</p>
               ) : (
-                bookings.map((booking) => (
-                  <div
-                    key={booking.id}
-                    className="py-2 border-b border-gray-200"
-                  >
-                    <div className="flex justify-between">
-                      <p>
-                        <strong>Patient:</strong> {booking.patientName}
-                      </p>
-                      <button className="text-red-600 capitalize ">
-                        <strong> Dr.{booking.doctor.name}</strong>
-                        {/* <strong>Doctor ID:</strong> {booking.doctor.id} */}
-                      </button>
-                    </div>
-                    <p>
-                      <strong>Date:</strong>{" "}
-                      {format(new Date(booking.date), "dd MMM yyyy")}
-                    </p>
-                    <p>
-                      <strong>Time:</strong> {booking.time}
-                    </p>
-                  </div>
-                ))
+                [...bookings]
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .map((booking) => {
+                    const isPast = new Date(booking.date) < new Date();
+                    return (
+                      <div
+                        key={booking.id}
+                        className={`py-2 border-b border-gray-200 ${
+                          isPast ? "bg-gray-50 opacity-75" : "bg-white"
+                        }`}
+                      >
+                        <div className="flex justify-between">
+                          <p>
+                            <strong>Patient:</strong> {booking.patientName}
+                          </p>
+                          <button
+                            className={`capitalize ${
+                              isPast ? "text-gray-600" : "text-red-600"
+                            }`}
+                          >
+                            <strong> Dr.{booking.doctor.name}</strong>
+                          </button>
+                        </div>
+                        <p>
+                          <strong>Date:</strong>{" "}
+                          {format(new Date(booking.date), "dd MMM yyyy")}
+                        </p>
+                        <p>
+                          <strong>Time:</strong> {booking.time}
+                        </p>
+                      </div>
+                    );
+                  })
               )}
             </div>
           </div>
