@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../utils/firebase";
 import toast from "react-hot-toast";
+import Link from 'next/link';
 
 const SignupForm = () => {
   const router = useRouter();
@@ -234,12 +235,9 @@ const SignupForm = () => {
           <div className="text-center text-sm text-gray-500">
             <p>
               Already have an account?{" "}
-              <a
-                href="/login"
-                className="text-indigo-600 hover:text-indigo-700"
-              >
-                Log In
-              </a>
+              <Link href="/login">
+                <a className="text-indigo-600 hover:text-indigo-700">Log In</a>
+              </Link>
             </p>
           </div>
         </form>
