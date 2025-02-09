@@ -4,6 +4,8 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { auth, firestore } from "../../utils/firebase";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import Link from 'next/link';
+
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -150,15 +152,12 @@ const LoginForm = () => {
           </div>
 
           <div className="text-center text-sm text-gray-500">
-            <p>
-              Don't have an account?{" "}
-              <a
-                href="/signup"
-                className="text-indigo-600 hover:text-indigo-700"
-              >
-                Sign Up
-              </a>
-            </p>
+          <p>
+             Don't have an account?{" "}
+              <Link href="/signup">
+                <a className="text-indigo-600 hover:text-indigo-700">Sign Up</a>
+              </Link>
+          </p>
           </div>
         </form>
       </div>

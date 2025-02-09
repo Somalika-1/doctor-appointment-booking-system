@@ -306,7 +306,7 @@ const AdminDashboard = () => {
         <div className="bg-blue-600 text-white p-6 flex justify-between items-center">
           <div className="flex items-center space-x-4 ">
             <UserIcon className="h-10 w-10" />
-            <h1 className="text-3xl font-bold capitalize">Admin's Dashboard</h1>
+            <h1 className="text-3xl font-bold capitalize">Admin&apos;s Dashboard</h1>
           </div>{" "}
           <button
             onClick={handleSignOut}

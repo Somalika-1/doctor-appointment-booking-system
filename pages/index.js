@@ -210,7 +210,7 @@ export default function LandingPage() {
                   />
                 ))}
               </div>
-              <p className="italic text-gray-600 mb-4">"{testimonial.text}"</p>
+              <p className="italic text-gray-600 mb-4">&quot;{testimonial.text}&quot;</p>
               <p className="font-semibold text-blue-700">
                 - {testimonial.name}
               </p>
